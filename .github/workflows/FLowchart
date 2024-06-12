@@ -1,0 +1,54 @@
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+def create_symbol_flowchart():
+    fig, ax = plt.subplots(figsize=(10, 20))
+    
+    # Hide axes
+    ax.axis('off')
+    
+    # Define the steps
+    steps = [
+        ("Start", "oval", (5, 18)),
+        ("Log into the CLMS portal", "rect", (5, 17)),
+        ("Navigate to the 'Completed Contract' section", "rect", (5, 16)),
+        ("Initiate Compliance Check", "rect", (5, 15)),
+        ("Select the contractor and completed purchase order", "rect", (5, 14)),
+        ("Verify Bonus and Leave Wages Compliance", "rect", (5, 13)),
+        ("Check Form-C", "rect", (5, 12)),
+        ("Check leave with wage register", "rect", (5, 11)),
+        ("Mark step as complete", "rect", (5, 10)),
+        ("Verify CLRA Compliance", "rect", (5, 9)),
+        ("Generate Form VII", "rect", (5, 8)),
+        ("Check payment of wages", "rect", (5, 7)),
+        ("Mark step as complete", "rect", (5, 6)),
+        ("Verify PF Compliance", "rect", (5, 5)),
+        ("Check payment of contributions", "rect", (5, 4)),
+        ("Verify late/delayed contributions and correct challans", "rect", (5, 3)),
+        ("Mark step as complete", "rect", (5, 2)),
+        ("Submit Security/Bank Guarantee Release", "rect", (5, 1)),
+        ("Update final compliance status", "rect", (5, 0)),
+        ("Enable option to submit letter for release", "rect", (5, -1)),
+        ("End", "oval", (5, -2))
+    ]
+    
+    for step, shape, (x, y) in steps:
+        if shape == "oval":
+            bbox = patches.Ellipse((x, y), width=6, height=1.5, edgecolor='black', facecolor='lightblue')
+        elif shape == "rect":
+            bbox = patches.FancyBboxPatch(
+                (x - 3, y - 0.75), 6, 1.5, boxstyle="round,pad=0.3", edgecolor='black', facecolor='lightgreen'
+            )
+        
+        ax.add_patch(bbox)
+        ax.text(x, y, step, ha='center', va='center', fontsize=10)
+    
+    for i in range(len(steps) - 1):
+        start = steps[i][2]
+        end = steps[i + 1][2]
+        ax.annotate('', xy=(end[0], end[1] + 0.75), xytext=(start[0], start[1] - 0.75), arrowprops=dict(arrowstyle='->', lw=1.5))
+    
+    plt.savefig("/mnt/data/compliance_check_flowchart.png")
+    plt.show()
+
+create_symbol_flowchart()
